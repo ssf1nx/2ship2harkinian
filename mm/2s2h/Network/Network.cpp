@@ -155,6 +155,7 @@ void Network::HandleCompletePacket(std::string payload) {
 }
 
 void Network::ProcessOutgoingPackets() {
+#ifdef ENABLE_NETWORKING
     if (!isConnected || !networkSocket) {
         return;
     }
@@ -175,8 +176,7 @@ void Network::ProcessOutgoingPackets() {
             SPDLOG_TRACE("[Network] Sending json:\n{}", rawPayload);
         }
 
-#ifdef ENABLE_NETWORKING
-        SDLNet_TCP_Send(networkSocket, rawPayload.c_str(), rawPayload.length() + 1);
-#endif
+    SDLNet_TCP_Send(networkSocket, rawPayload.c_str(), rawPayload.length() + 1);
     }
+#endif
 }
